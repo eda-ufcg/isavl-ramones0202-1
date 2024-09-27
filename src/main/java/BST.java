@@ -1,18 +1,41 @@
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Scanner;
 
-public class BST {
+class BST {
 
     private Node root;
     private int size;
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         BST bst = new BST();
+
+        String line = sc.nextLine();
+        transformaValores(line, bst);
+        System.out.println(bst.preOrder().trim());
+
     }
 
     public boolean isAVL() {
         return isAVL(this.root);
+    }
+
+    /*public static void saida(Node node) {
+        if (node != null) {
+            preOrder
+        }
+    }*/
+
+    public static void transformaValores(String line, BST bst) {
+        String[] valores =  line.split(" ");
+        int[] valoresConvertidos = new int[valores.length];
+
+        for (int i = 0; i < valores.length; i++) {
+            valoresConvertidos[i] = Integer.parseInt(valores[i]);
+            bst.add(valoresConvertidos[i]);
+        }
     }
 
     private boolean isAVL(Node node) {
@@ -336,16 +359,16 @@ public class BST {
     /**
      * Percorre a árvore em pré-ordem.
      */
-    public void preOrder() {
-        preOrder(this.root);
+    public String preOrder() {
+        return preOrder(this.root, "");
     }
 
-    private void preOrder(Node node) {
+    private String preOrder(Node node, String ret) {
         if (node != null) {
-            System.out.println(node.value);
-            preOrder(node.left);
-            preOrder(node.right);
+            //System.out.print(node.value + "," + balance(node) + " ");
+            ret = node.value + "," + balance(node) + " " + preOrder(node.left, ret) + preOrder(node.right, ret);
         }
+        return ret;
     }
 
     /**
